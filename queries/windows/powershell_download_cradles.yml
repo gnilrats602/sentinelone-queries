@@ -1,0 +1,21 @@
+title: Powershell Download Cradles
+description: Detects usage of Powershell to download a malicious files. The below query
+  will find CommandLine or CommandScript downloads using multiple cradle methods as
+  documented here HarmJ0y. This query should only be used for hunting purposes 
+  and covers most unobfuscated powershell cradles.
+author: keyboardcrunch
+date: 10/10/2020
+modified: 05/12/2020
+mitre:
+   tactic: Initial Access
+   technique: T1566
+   subtechnique: 001
+operating_system: windows
+query: (SrcProcCmdLine In Contains Anycase ("Net.WebClient","(iwr","DownloadString(","WinHttp.WinHttpRequest","IEX
+  (","InternetExplorer.Application","Msxml2.XMLHTTP","MSXML2.ServerXMLHTTP") OR SrcProcCmdScript
+  In Contains Anycase ("Net.WebClient","(iwr","DownloadString(","WinHttp.WinHttpRequest","IEX
+  (","InternetExplorer.Application","Msxml2.XMLHTTP","MSXML2.ServerXMLHTTP"))
+false_positives: 
+tags: 
+references:
+   - https://gist.github.com/HarmJ0y/bb48307ffa663256e239
